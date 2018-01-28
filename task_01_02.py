@@ -18,13 +18,14 @@ PLATES_COUNT = int(input())
 CLEANSER_COUNT = int(input())
 
 for plate in range(PLATES_COUNT):
-    PLATES_COUNT -= 1
-    CLEANSER_COUNT -= 0.5
+    if CLEANSER_COUNT:
+        PLATES_COUNT -= 1
+        CLEANSER_COUNT -= 0.5
 
-    if CLEANSER_COUNT == 0 and PLATES_COUNT > 0:
+    if not CLEANSER_COUNT and PLATES_COUNT > 0:
         print('Моющее средство закончилось. Осталось', PLATES_COUNT, 'тарелок')
         break
-    elif PLATES_COUNT == 0 and CLEANSER_COUNT > 0:
+    elif not PLATES_COUNT and CLEANSER_COUNT > 0:
         print('Все тарелки вымыты. Осталось', CLEANSER_COUNT, 'ед. моющего средства')
-    elif CLEANSER_COUNT == 0 and PLATES_COUNT == 0:
+    elif not CLEANSER_COUNT and not PLATES_COUNT:
         print('Все тарелки вымыты, моющее средство закончилось')

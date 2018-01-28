@@ -9,6 +9,7 @@
 Если треугольник прямоугольный - вывести на экран "yes"
 Если треугольник не прямоугольный - вывести на экран "no"
 '''
+
 #Координаты вершины A
 AVERTEX_X = int(input())
 AVERTEX_Y = int(input())
@@ -44,7 +45,7 @@ ACBC = AC_VECTOR_X * BC_VECTOR_X + AC_VECTOR_Y * BC_VECTOR_Y
 BACA = BA_VECTOR_X * CA_VECTOR_X + BA_VECTOR_Y * CA_VECTOR_Y
 
 #Если скалярное произведение векторов = 0, то угол между ними = 90°
-if ABCB == 0 or ACBC == 0 or BACA == 0:
+if not ABCB or not ACBC or not BACA:
     print('yes')
 else:
     print('no')

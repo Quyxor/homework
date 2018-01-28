@@ -1,5 +1,5 @@
 '''
-ЗАДАЧА_1
+ЗАДАЧА_1:
 Попросить пользователя ввести с клавиатуры год.
 
 Если год високосный - вывести на экран "yes"
@@ -13,7 +13,7 @@
 YEAR = int(input())
 
 if YEAR >= 0:
-    if (YEAR % 100 == 0 and YEAR % 400 != 0) or YEAR % 4 != 0:
+    if (not YEAR % 100 and YEAR % 400) or YEAR % 4:
         print('no')
     else:
         print('yes')
