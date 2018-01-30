@@ -9,7 +9,7 @@
 '''
 
 def is_palindrome(s):
-    cut_s = s.replace(' ', '').lower()
+    cut_s = str(s).replace(' ', '').lower()
     invert_s = cut_s[::-1]
 
     return cut_s == invert_s
