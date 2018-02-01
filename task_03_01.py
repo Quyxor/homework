@@ -17,7 +17,7 @@ def get_days_to_new_year():
     new_year = date(now.year + 1, 1, 1)
     today = date(now.year, now.month, now.day)
 
-    count = (new_year - today).days
+    count = (new_year - today).days - 1
 
     return count
 
