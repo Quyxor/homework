@@ -14,11 +14,8 @@ from datetime import datetime, date
 def get_days_to_new_year():
 
     now = datetime.now()
-    start_of_day = True if now.hour == 0 and now.minute == 0 and now.second == 0 else False
-    new_year = date(now.year + 1, 1, 1)
-    today = date(now.year, now.month, now.day)
-
-    count = (new_year - today).days if start_of_day else (new_year - today).days - 1
+    new_year = datetime(now.year + 1, 1, 1, 0, 0, 0)
+    count = (new_year - now).days
 
     return count
 
