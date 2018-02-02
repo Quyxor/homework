@@ -8,7 +8,7 @@
 Требуется реализовать только функцию,
 решение не должно осуществлять операций ввода-вывода.
 '''
-from datetime import datetime, date
+from datetime import datetime
 
 
 def get_days_to_new_year():
