@@ -8,16 +8,14 @@
 Требуется реализовать только функцию,
 решение не должно осуществлять операций ввода-вывода.
 '''
-from datetime import datetime, date
+from datetime import datetime
 
 
 def get_days_to_new_year():
 
     now = datetime.now()
-    new_year = date(now.year + 1, 1, 1)
-    today = date(now.year, now.month, now.day)
-
-    count = (new_year - today).days - 1
+    new_year = datetime(now.year + 1, 1, 1, 0, 0, 0)
+    count = (new_year - now).days
 
     return count
 
