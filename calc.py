@@ -23,7 +23,7 @@ def calc(expr):
     for char in expr_conv:
         if char in OP_DICT:
             b, a = stack.pop(), stack.pop()
-            stack.append(OP_DICT[char](a,b))
+            stack.append(OP_DICT[char](a, b))
         else:
             stack.append(float(char))
 
