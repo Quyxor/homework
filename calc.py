@@ -13,9 +13,11 @@ from operator import add, sub, mul, truediv, pow
 OP_DICT = {'^': pow, '*': mul, '/': truediv, '+': add, '-': sub}
 OPS = {'^': 3, '*': 2, '/': 2, '+': 1, '-': 1, '(': 0}
 
+
 def exist_precedence(prev_char, that_char):
 
     return OPS[prev_char] >= OPS[that_char]
+
 
 def pop_greater(ops, op):
     out = []

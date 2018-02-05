@@ -15,15 +15,15 @@
 import json
 
 
-def http_headers_to_json(HTTP_PATH, JSON_PATH):
+def http_headers_to_json(http_path, json_path):
 
     dict_req = {}
     dict_resp = {}
     dict_append = {}
 
-    with open(HTTP_PATH) as input_file, \
-         open(JSON_PATH, 'w') as output_file:
-         
+    with open(http_path) as input_file, \
+         open(json_path, 'w') as output_file:
+
         headers = input_file.read().split('\n')
         first_line = headers.pop(0).split(' ')
 
@@ -44,6 +44,7 @@ def http_headers_to_json(HTTP_PATH, JSON_PATH):
             dict_req['protocol'] = first_line.pop(0)
             dict_req.update(dict_append)
             json.dump(dict_req, output_file, indent=4)
+
 
 if __name__ == '__main__':
     http_headers_to_json('headers-1.txt', 'results-1.json')
