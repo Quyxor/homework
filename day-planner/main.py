@@ -1,3 +1,3 @@
-from day_planner.__init__ import main
+from day_planner import main
 
 main()
