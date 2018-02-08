@@ -1,3 +1,4 @@
 *.txt
 *.json
+*.sqlite3
 __pycache__
