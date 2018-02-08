@@ -1,6 +1,7 @@
 '''
 Общие методы
 '''
+import os.path as path
 
 
 def response_converter(response):
@@ -15,3 +16,7 @@ def response_converter(response):
                                 for key, val in task.items() if key != 'id'))
 
     return '\n\n'.join(tmp_list)
+
+
+def get_path_resourses(resourse):
+    return path.join(path.dirname(__file__), 'resourses', resourse)

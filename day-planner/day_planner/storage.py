@@ -1,6 +1,5 @@
-import os.path as path
 import sqlite3
-
+from .common import get_path_resourses
 
 SQL_SELECT_ALL = '''
     SELECT
@@ -57,9 +56,7 @@ def connect(db_name=None):
 def initialize(conn, creation_script=None):
     '''Инициализировать структуру БД'''
     if not creation_script:
-        creation_script = path.join(path.dirname(__file__),
-                                    'resourses',
-                                    'schema.sql')
+        creation_script = get_path_resourses('schema.sql')
 
     with conn, open(creation_script) as db_script:
         conn.executescript(db_script.read())

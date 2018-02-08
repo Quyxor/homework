@@ -104,8 +104,9 @@ def action_exit():
 
 
 def change_status(status):
+    '''Изменить статус задачи'''
     number = input('\nВведите номер задачи: ')
-    
+
     task_pack = {'number': number,
                  'status': status,
                 }
@@ -114,10 +115,17 @@ def change_status(status):
         storage.edit_task(conn, task_pack)
 
 
+def show_welcome():
+    with open(common.get_path_resourses('greetings')) as f:
+        for i in f:
+            print(i.rstrip())
+
+
 def main():
     with get_connection() as conn:
         storage.initialize(conn)
 
+    show_welcome()
     action_show_menu()
 
     while True:
