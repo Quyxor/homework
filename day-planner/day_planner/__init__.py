@@ -1,7 +1,9 @@
 from collections import OrderedDict, namedtuple
-from day_planner import storage, common
+from day_planner import storage
+from .common import response_converter as resp_conv, get_path_resourses as get_path
 from datetime import datetime
 import sys
+
 
 actions = OrderedDict()
 action = namedtuple('Action', ['function', 'name'])
@@ -35,7 +37,7 @@ def action_show_task_list():
         all_tasks = storage.get_all_tasks(conn)
 
     if all_tasks:
-        print('\nСписок задач на сегодня:\n\n{}'.format(common.response_converter(all_tasks)))
+        print('\nСписок задач на сегодня:\n\n{}'.format(resp_conv(all_tasks)))
     else:
         print('\nНет задач.')
 
@@ -44,7 +46,7 @@ def action_show_task_list():
 def action_add_task():
     '''Добавить задачу'''
     task, deadline = input('\nВведите название задачи: '), \
-                     input('\nВведите дату окончания задачи: ')
+                     input('\nВведите дату окончания задачи в формате DD.MM.YY: ')
 
     task_pack = {'task': task, 'deadline': deadline}
 
@@ -58,9 +60,9 @@ def action_add_task():
 def action_edit_task():
     '''Отредактировать задачу'''
     number, title, description, deadline = input('\nВведите номер задачи: '), \
-                                input('\nВведите новое название задачи: '), \
-                                input('\nВведите новое описание задачи: '), \
-                                input('\nВведите новую дату окончания: ')
+    input('\nВведите новое название задачи(не обязательно): '), \
+    input('\nВведите новое описание задачи(не обязательно): '), \
+    input('\nВведите новую дату окончания в формате DD.MM.YY(не обязательно): ')
     task_pack = {'number': number,
                  'title': title,
                  'description': description,
@@ -105,9 +107,9 @@ def action_exit():
 
 def change_status(status):
     '''Изменить статус задачи'''
-    number = input('\nВведите номер задачи: ')
+    task_number = input('\nВведите номер задачи: ')
 
-    task_pack = {'number': number,
+    task_pack = {'number': task_number,
                  'status': status,
                 }
 
@@ -116,9 +118,10 @@ def change_status(status):
 
 
 def show_logo():
-    with open(common.get_path_resourses('logo')) as f:
-        for i in f:
-            print(i.rstrip())
+    '''Вывести логотип программы'''
+    with open(get_path('logo')) as logo:
+        for line in logo:
+            print(line.rstrip())
 
 
 def main():
