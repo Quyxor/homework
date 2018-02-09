@@ -86,13 +86,20 @@ def get_all_tasks(conn, domain=''):
         return cursor.fetchall()
 
 
+def get_task_by_number(conn, task_number, domain=''):
+    '''Получить задачу по номеру'''
+    with conn:
+        conn.row_factory = dict_factory
+        cursor = conn.execute(SQL_SELECT_TASK_BY_NUMBER, (task_number,))
+        return cursor.fetchall()
+
+
 def delete_task_by_number(conn, task_number, domain=''):
     '''Удалить задачу'''
     if not task_number:
         raise RuntimeError('Номер задачи не может быть пустым')
 
-    cursor = conn.execute(SQL_SELECT_TASK_BY_NUMBER, (task_number,))
-    task_to_remove = cursor.fetchone()
+    task_to_remove = get_task_by_number(conn, task_number)
 
     if task_to_remove:
         conn.execute(SQL_DELETE_TASK, (task_number,))
@@ -123,17 +130,23 @@ def edit_task(conn, task_pack, domain=''):
     deadline = task_pack.get('deadline')
     status = task_pack.get('status')
 
+    previous_task = get_task_by_number(conn, task_number)
+
     if not task_number:
         raise RuntimeError('Номер задачи не может быть пустым')
 
     if title:
-        conn.execute(SQL_UPDATE_TASK_TITLE, (title, task_number))
+        cursor = conn.execute(SQL_UPDATE_TASK_TITLE, (title, task_number))
     if description:
         conn.execute(SQL_UPDATE_TASK_DESCRIPTION, (description, task_number))
     if deadline:
         conn.execute(SQL_UPDATE_TASK_DEADLINE, (deadline, task_number))
     if status != None:
         conn.execute(SQL_UPDATE_TASK_STATUS, (status, task_number))
+
+    changed_task = get_task_by_number(conn, task_number)
+
+    return previous_task != changed_task
 
 
 def dict_factory(cursor, row):
