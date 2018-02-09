@@ -28,7 +28,7 @@ def action_show_menu():
     for terminal, action in actions.items():
         menu.append('{}. {}'.format(terminal, action.name))
 
-    print(colored('\nЕжедневник.\n\nВыберите действие:\n', 'yellow'))
+    print(colored('\nЕжедневник.\n\nВыберите действие:\n', 'yellow', None, ['bold']))
     print(colored('\n'.join(menu), 'green'))
 
 
@@ -139,7 +139,7 @@ def show_logo():
     '''Вывести логотип программы'''
     with open(get_path('logo')) as logo:
         for line in logo:
-            print(colored(line.rstrip(), 'green'))
+            print(colored(line.rstrip(), 'green', None, ['bold']))
 
 
 def main():
