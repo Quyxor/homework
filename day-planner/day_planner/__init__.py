@@ -115,8 +115,8 @@ def change_status(status):
         storage.edit_task(conn, task_pack)
 
 
-def show_welcome():
-    with open(common.get_path_resourses('greetings')) as f:
+def show_logo():
+    with open(common.get_path_resourses('logo')) as f:
         for i in f:
             print(i.rstrip())
 
@@ -125,7 +125,7 @@ def main():
     with get_connection() as conn:
         storage.initialize(conn)
 
-    show_welcome()
+    show_logo()
     action_show_menu()
 
     while True:
