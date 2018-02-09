@@ -156,4 +156,4 @@ def main():
         if action:
             action.function()
         else:
-            print('\nКоманда не найдена: {}'.format(terminal))
+            print('\nКоманда не найдена (0 - вывести меню): {}'.format(terminal))
