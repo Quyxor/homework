@@ -1,10 +1,10 @@
 import time
 
 
-def pause(sek):
+def pause(sleep_time):
 
     def decorator(function):
-        time.sleep(sek)
-        function()
+        time.sleep(sleep_time)
+        return function
 
     return decorator
