@@ -1,15 +1,20 @@
 from collections import OrderedDict, namedtuple
 from day_planner import storage
-from .common import response_converter as resp_conv, get_path_resourses as get_path
+from .common import (response_converter as resp_conv,
+                    get_path_resourses as get_path,
+                    validate,
+                    check_input)
 from datetime import datetime
 from .termcolor import colored
+from datetime import datetime
 import sys
+import os
 
 
 actions = OrderedDict()
 action = namedtuple('Action', ['function', 'name'])
 
-input_task_number = lambda: input(colored('\nВведите номер задачи: ', 'cyan'))
+input_task_number = lambda: input(colored('Введите номер задачи: \n', 'cyan'))
 get_connection = lambda: storage.connect('tasks.sqlite3')
 
 
@@ -25,10 +30,12 @@ def action_show_menu():
     '''Вывести меню'''
     menu = []
 
+    show_logo()
+
     for terminal, action in actions.items():
         menu.append('{}. {}'.format(terminal, action.name))
 
-    print(colored('\nЕжедневник.\n\nВыберите действие:\n', 'yellow', None, ['bold']))
+    print(colored('Ежедневник.\n\nВыберите действие:\n', 'yellow', None, ['bold']))
     print(colored('\n'.join(menu), 'green'))
 
 
@@ -39,7 +46,10 @@ def action_show_task_list():
         all_tasks = storage.get_all_tasks(conn)
 
     if all_tasks:
-        print(colored('\nСписок задач на сегодня:\n\n{}'.format(resp_conv(all_tasks)), 'white'))
+        print(colored('Список задач на сегодня:', 'yellow'))
+        out_str = '\n{}\n'.format(resp_conv(all_tasks))
+        print(colored(out_str, 'white'))
+        print('-' * 30)
     else:
         print(colored('\nНет задач.', 'red'))
 
@@ -47,8 +57,15 @@ def action_show_task_list():
 @menu_action('2', 'Добавить задачу')
 def action_add_task():
     '''Добавить задачу'''
-    task, deadline = input(colored('\nВведите название задачи: ', 'cyan')), \
-                     input(colored('\nВведите дату окончания задачи в формате DD.MM.YY: ', 'cyan'))
+    all_input = False
+    time_correct = False
+
+    while not all_input or not time_correct:
+        task, deadline = input(colored('Введите название задачи: ', 'cyan')), \
+                         input(colored('\nВведите дату окончания задачи в формате DD.MM.YY: \n', 'cyan')) or datetime.now().strftime("%d.%m.%Y")
+
+        all_input = check_input(task)
+        time_correct = validate(deadline)
 
     task_pack = {'task': task, 'deadline': deadline}
 
@@ -62,7 +79,7 @@ def action_add_task():
 def action_edit_task():
     '''Отредактировать задачу'''
     number, title, description, deadline = input_task_number(), \
-    input(colored('\nВведите новое название задачи(не обязательно): ', 'cyan')), \
+    input(colored('Введите новое название задачи(не обязательно): ', 'cyan')), \
     input(colored('\nВведите новое описание задачи(не обязательно): ', 'cyan')), \
     input(colored('\nВведите новую дату окончания в формате DD.MM.YY(не обязательно): ', 'cyan'))
 
@@ -104,13 +121,13 @@ def action_delete_task():
     if deleted_task:
         print(colored('\nЗадача:\n\n{}\n\nбыла удалена.'.format(resp_conv(deleted_task)), 'white'))
     else:
-        print(colored('\nЗадачи под номером {} не существует.'.format(task_number)), 'red')
+        print(colored('\nЗадачи под номером {} не существует.'.format(task_number), 'red'))
 
 
 @menu_action('7', 'Выход')
 def action_exit():
     '''Выход'''
-    print(colored('\nО, а это запросто, до новых встреч!', 'yellow'))
+    print(colored('О, а это запросто, до новых встреч!', 'yellow'))
     sys.exit(0)
 
 
@@ -146,7 +163,6 @@ def main():
     with get_connection() as conn:
         storage.initialize(conn)
 
-    show_logo()
     action_show_menu()
 
     while True:
@@ -154,6 +170,11 @@ def main():
         action = actions.get(terminal)
 
         if action:
+            if sys.platform == 'win32':
+                os.system('cls')
+            else:
+                os.system('clear')
+                
             action.function()
         else:
             print('\nКоманда не найдена (0 - вывести меню): {}'.format(terminal))
