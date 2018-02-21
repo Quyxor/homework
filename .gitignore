@@ -1,4 +1,5 @@
 *.txt
 *.json
+*.pickle
 *.sqlite3
 __pycache__
