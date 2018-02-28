@@ -55,3 +55,7 @@ class DateTimeValidator(Validator):
             except:
                 pass
         return False
+
+
+Validator.add_type('email', EMailValidator)
+Validator.add_type('datetime', DateTimeValidator)
