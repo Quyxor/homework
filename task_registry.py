@@ -34,7 +34,7 @@ class Registry(object):
         self.__i -= 1
 
         key = self.__keys[self.__i]
-        value = self.__params.get(key, None)
+        value = self.__params.get(key)
 
         return key, value
 
