@@ -1,5 +1,5 @@
 class Registry(object):
-    __slots__ = ('a', 'b', '__params', '__keys', '__i')
+    __slots__ = ('__params', )
 
     def __init__(self):
         self.__params = {}
@@ -23,20 +23,7 @@ class Registry(object):
             del self.__params[attr]
 
     def __iter__(self):
-        self.__keys = tuple(self.__params.keys())
-        self.__i = len(self.__keys)
-        return self
-
-    def __next__(self):
-        if self.__i == 0:
-            raise StopIteration
-
-        self.__i -= 1
-
-        key = self.__keys[self.__i]
-        value = self.__params.get(key)
-
-        return key, value
+        return iter(self.__params.items())
 
 r = Registry()
 r.kek = 123
