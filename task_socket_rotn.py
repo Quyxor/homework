@@ -16,7 +16,8 @@ class Server(object):
     def __init__(self, host='127.0.0.1', port=1234, rotn=1):
         self.__address = (host, port)
         self.__server_socket = None
-        self.__connections =
+        self.__connections = {}
+        self.__rotn = rotn
 
 
     def listen(self):
