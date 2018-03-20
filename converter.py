@@ -30,11 +30,13 @@ class Converter(QMainWindow):
         #self.resultAmount.setReadOnly(True)
 
         self.convertBtn = QPushButton('Перевести', self)
-        # self.convertBtn.setDisabled(True)
+        self.convertBtn.setDisabled(True)
 
 
     def initSignals(self):
         self.convertBtn.clicked.connect(self.onClickConvertBtn)
+        self.srcAmount.valueChanged.connect(self.setButtonAvailability)
+        self.resultAmount.valueChanged.connect(self.setButtonAvailability)
 
 
     def initLayouts(self):
@@ -58,6 +60,16 @@ class Converter(QMainWindow):
             self.resultAmount.setValue(src_value / 30)
         elif result_value:
             self.srcAmount.setValue(result_value * 30)
+
+    def setButtonAvailability(self):
+        src_value = self.srcAmount.value()
+        result_value = self.resultAmount.value()
+
+        if src_value and result_value or not src_value and not result_value:
+            self.convertBtn.setDisabled(True)
+        else:
+            self.convertBtn.setDisabled(False)
+
 
 
 if __name__ == '__main__':
