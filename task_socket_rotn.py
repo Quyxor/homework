@@ -75,25 +75,25 @@ class Client(object):
 
 
     def connect(self):
-        self.__client_socket = sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        try:
-            sock.connect(self.__address)
-            msg = 'Установлено соединение с {}'.format(self.__address)
-            logger.info(msg)
-        except socket.error:
-            logger.error('Сервер недоступен')
 
         while True:
             __message = input()
 
+            self.__client_socket = sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
             if __message == '\q':
                 break
             else:
+                try:
+                    sock.connect(self.__address)
+                    msg = 'Установлено соединение с {}'.format(self.__address)
+                    logger.info(msg)
+                except socket.error:
+                    logger.error('Сервер недоступен')
                 sock.send(__message.encode("utf-8"))
                 __data = sock.recv(1024)
                 __data = __data.decode("utf-8")
-                print(__data)
+                print('RESPONSE: {}'.format(__data))
             sock.close()
 
 
