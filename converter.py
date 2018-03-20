@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QObject, Qt
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget,
     QLabel, QDoubleSpinBox, QPushButton,
@@ -32,9 +32,12 @@ class Converter(QMainWindow):
         self.convertBtn = QPushButton('Перевести', self)
         self.convertBtn.setDisabled(True)
 
+        self.clearBtn = QPushButton('Сбросить', self)
+
 
     def initSignals(self):
         self.convertBtn.clicked.connect(self.onClickConvertBtn)
+        self.clearBtn.clicked.connect(self.onClickClearBtn)
         self.srcAmount.valueChanged.connect(self.setButtonAvailability)
         self.resultAmount.valueChanged.connect(self.setButtonAvailability)
 
@@ -48,6 +51,7 @@ class Converter(QMainWindow):
         self.mainLayout.addWidget(self.resultLabel)
         self.mainLayout.addWidget(self.resultAmount)
         self.mainLayout.addWidget(self.convertBtn)
+        self.mainLayout.addWidget(self.clearBtn)
 
         self.setCentralWidget(w)
 
@@ -61,6 +65,12 @@ class Converter(QMainWindow):
         elif result_value:
             self.srcAmount.setValue(result_value * 30)
 
+
+    def onClickClearBtn(self):
+        self.resultAmount.setValue(0)
+        self.srcAmount.setValue(0)
+
+
     def setButtonAvailability(self):
         src_value = self.srcAmount.value()
         result_value = self.resultAmount.value()
@@ -69,6 +79,11 @@ class Converter(QMainWindow):
             self.convertBtn.setDisabled(True)
         else:
             self.convertBtn.setDisabled(False)
+
+
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key_Return:
+            self.onClickConvertBtn()
 
 
 
